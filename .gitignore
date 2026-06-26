@@ -1,0 +1,28 @@
+# Root
+node_modules/
+package-lock.json
+
+# Environment
+.env
+.env.*
+
+# Logs
+*.log
+
+# VS Code
+.vscode/
+
+# Flutter
+printora_frontend/build/
+printora_frontend/.dart_tool/
+
+# Backend
+printora-backend/node_modules/
+printora-backend/.env
+
+# Kiosk Agent
+printora-kiosk-agent/node_modules/
+printora-kiosk-agent/.env
+
+# Downloads
+printora-kiosk-agent/downloads/
