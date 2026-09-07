@@ -19,6 +19,7 @@ printora_frontend/.dart_tool/
 # Backend
 printora-backend/node_modules/
 printora-backend/.env
+printora-backend/.git-backup/
 
 # Kiosk Agent
 printora-kiosk-agent/node_modules/

@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  name      String
+  email     String     @unique
+  phone     String?
+  createdAt DateTime   @default(now())
+  orders    Order[]
+  jobs      PrintJob[]
+}
+
+model Kiosk {
+  id          String     @id @default(cuid())
+  name        String
+  location    String
+  latitude    Float
+  longitude   Float
+  status      String     @default("ACTIVE")
+  currentLoad Int        @default(0)
+  createdAt   DateTime   @default(now())
+  jobs        PrintJob[]
+}
+
+model PrintJob {
+  id        String   @id @default(cuid())
+  fileUrl   String
+  pages     Int
+  copies    Int
+  color     Boolean
+  price     Float
+  status    String
+  userId    String
+  kioskId   String
+  createdAt DateTime @default(now())
+  fileName  String?
+  orderId   String?
+  pageRange String?
+  kiosk     Kiosk    @relation(fields: [kioskId], references: [id])
+  order     Order?   @relation(fields: [orderId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Order {
+  id         String     @id @default(cuid())
+  userId     String
+  totalPrice Float
+  status     String     @default("PAYMENT_PENDING")
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  user       User       @relation(fields: [userId], references: [id])
+  payment    Payment?
+  printJobs  PrintJob[]
+}
+
+model Payment {
+  id        String   @id @default(cuid())
+  amount    Float
+  status    String
+  createdAt DateTime @default(now())
+  orderId   String   @unique
+  paymentId String?
+  order     Order    @relation(fields: [orderId], references: [id])
+}
+
+model Log {
+  id        String   @id @default(cuid())
+  event     String
+  createdAt DateTime @default(now())
+}
